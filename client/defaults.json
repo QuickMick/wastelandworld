@@ -1,0 +1,6 @@
+{
+    "CHUNK_SIZE": {
+        "WIDTH": 128,
+        "HEIGHT": 128
+    }
+}
