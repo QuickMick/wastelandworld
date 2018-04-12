@@ -3,5 +3,6 @@
         "WIDTH": 128,
         "HEIGHT": 128
     },
-    "CHUNK_LAYERS": 4
+    "CHUNK_LAYERS": 4,
+    "TILESIZE": 64
 }
