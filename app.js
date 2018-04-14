@@ -24,6 +24,7 @@ function normalizePort(val) {
 }
 
 class App {
+  wastelandworld
   constructor() {
     this.app = null;
     this.server = null;
