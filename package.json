@@ -1,23 +1,16 @@
 {
-  "name": "wastelandworld",
-  "version": "0.0.0",
-  "private": true,
+  "name": "topdown",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
   "scripts": {
-    "start": "node ./app.js",
-    "watch": "watchify client/main.js -o public/javascripts/bundle.js -v -d"
+    "start": "electron ."
   },
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "body-parser": "~1.18.2",
-    "cookie-parser": "~1.4.3",
-    "debug": "~2.6.9",
-    "express": "~4.15.5",
-    "helmet": "^3.12.0",
-    "morgan": "~1.9.0",
-    "pixi.js": "^4.7.0",
-    "pug": "2.0.0-beta11",
-    "serve-favicon": "~2.4.5",
-    "socket-io": "^1.0.0",
-    "socket.io": "^2.1.0",
-    "watchify": "^3.10.0"
+    "electron": "4.0.0",
+    "planck-js": "0.3.0-rc.2",
+    "three": "0.99.0"
   }
 }
