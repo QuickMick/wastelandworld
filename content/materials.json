@@ -15,7 +15,7 @@
       "between": ["rough", "slippery"],
       "behaviour": {
         "friction": 0,
-        "restitution": 0.3,
+        "restitution": 0,
         "contactEquationStiffness": 1e8,
         "contactEquationRelaxation": 3
       }

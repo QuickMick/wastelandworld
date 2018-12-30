@@ -3,15 +3,17 @@ const THREE = require('three');
 const Entity = require('./entity');
 const s2m = require('./../util/shapetomesh');
 
-const temp = new CANNON.Vec3(0, 0, 0);
+const speedTemp = new CANNON.Vec3(0, 0, 0);
+
+const dirTemp = new CANNON.Vec3(0, 0, 0);
 
 class Player extends Entity {
   constructor() {
     super("PLAYER", "PLAYER");
 
     this.attributes = {
-      acceleration: 5,
-      maxSpeed: 5
+      acceleration: 25,
+      maxSpeed: 3
     };
   }
   //https://github.com/schteppe/cannon.js/issues/297
@@ -20,11 +22,11 @@ class Player extends Entity {
     var size = 1; // m
     this._body = new CANNON.Body({
       mass: 5, // kg
-      //  fixedRotation: true,
+      fixedRotation: true,
       //linearDamping: 0.4,
-      material: context.assets.material.rough,
+      material: context.assets.material.slippery,
       position: new CANNON.Vec3(0, 0, 10), // m
-      shape: new CANNON.Sphere(size) //new CANNON.Box(new CANNON.Vec3(size, size, size)) //
+      shape: new CANNON.Sphere(size / 2) //new CANNON.Box(new CANNON.Vec3(size, size, size)) //
     });
 
     // var geometry = new THREE.SphereGeometry(0.5, 32, 32);
@@ -49,56 +51,40 @@ class Player extends Entity {
   update(context) {
 
     const acceleration = this.attributes.acceleration * context.delta;
-    const dir = new CANNON.Vec3(0, 0, 0);
+    dirTemp.set(0, 0, 0);
     const m = context.inputManager.mapping;
-    if (m.UP.isDown) dir.y += 1;
-    if (m.DOWN.isDown) dir.y -= 1;
-    if (m.LEFT.isDown) dir.x -= 1;
-    if (m.RIGHT.isDown) dir.x += 1;
+    if (m.UP.isDown) dirTemp.y += 1;
+    if (m.DOWN.isDown) dirTemp.y -= 1;
+    if (m.LEFT.isDown) dirTemp.x -= 1;
+    if (m.RIGHT.isDown) dirTemp.x += 1;
 
-    dir.normalize();
-    dir.scale(acceleration, dir);
-    // else {
-    //   this.body.velocity.x *= 0.6;
-    //   this.body.velocity.y *= 0.6;
-    //   //  this.body.velocity.z *= 0.6;
-    // }
-
-    this.body.velocity.x += dir.x;
-    this.body.velocity.y += dir.y;
-
-    temp.set(this.body.velocity.x, this.body.velocity.y, 0);
-
-    const curSpeed = temp.length();
+    dirTemp.normalize();
+    dirTemp.scale(acceleration, dirTemp);
 
 
-    if (curSpeed > this.attributes.maxSpeed) {
-      const x = curSpeed / 100; /// 1 prozent
-      let x2 = this.attributes.maxSpeed / x; /// wie viel prozent des hat
-      x2 = (x2) / 100;
-      console.log(curSpeed, x2);
-      this.body.velocity.x *= x2;
-      this.body.velocity.y *= x2;
-
-      console.log("speed:", this.body.velocity.length());
+    if (dirTemp.length() === 0) {
+      this.body.velocity.x *= 0.8;
+      this.body.velocity.y *= 0.8;
+    } else {
+      this.body.velocity.x += dirTemp.x;
+      this.body.velocity.y += dirTemp.y;
     }
 
-    // // clamp max speed
-    // if (this.body.velocity.x > this.attributes.maxSpeed) {
-    //   this.body.velocity.x = this.attributes.maxSpeed;
-    // }
-    // if (this.body.velocity.y > this.attributes.maxSpeed) {
-    //   this.body.velocity.y = this.attributes.maxSpeed;
-    // }
+    speedTemp.set(this.body.velocity.x, this.body.velocity.y, 0);
+    const curSpeed = speedTemp.length();
 
-    // if (this.body.velocity.x < -this.attributes.maxSpeed) {
-    //   this.body.velocity.x = -this.attributes.maxSpeed;
-    // }
-    // if (this.body.velocity.y < -this.attributes.maxSpeed) {
-    //   this.body.velocity.y = -this.attributes.maxSpeed;
-    // }
+    // if the player is to fast,
+    // clamp the speed
+    console.log(curSpeed);
+    if (curSpeed > this.attributes.maxSpeed) {
+      const onePercent = curSpeed / 100; // one percent of current speed
+      let percent = this.attributes.maxSpeed / onePercent; // percent of target speed
+      percent = (percent) / 100;
+      // reduce the speed, so that the rations of speed still fit
+      this.body.velocity.x *= percent;
+      this.body.velocity.y *= percent;
+    }
 
-    // if (m.JUMP.wasReleased) this.body.applyForce(new CANNON.Vec3(0, 0, 20), this.body.position);
     if (m.JUMP.wasPressed) this.body.velocity.z += 5;
 
   }

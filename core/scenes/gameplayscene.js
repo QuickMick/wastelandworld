@@ -83,13 +83,6 @@ class GameplayScene extends BaseScene {
         this.entityManager.addEntity(context, new SimpleGround());
         this.entityManager.addEntity(context, new Player());
 
-
-        this.entityManager.world.addEventListener("postStep", (evt) => {
-            const player = this.entityManager.get("PLAYER");
-            player.body.velocity.x *= 0.99;
-            player.body.velocity.y *= 0.99;
-        });
-
     }
 
     update(context) {
@@ -102,7 +95,7 @@ class GameplayScene extends BaseScene {
         const player = this.entityManager.get("PLAYER");
         this._camera.position.x = player.body.position.x;
         this._camera.position.y = player.body.position.y;
-        this._camera.position.z = player.body.position.z + 7;
+        this._camera.position.z = player.body.position.z + 4;
 
     }
 
