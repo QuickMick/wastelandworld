@@ -93,6 +93,8 @@ class GameplayScene extends BaseScene {
         const player = this.entityManager.get("PLAYER");
         this._camera.position.copy(player.body.position);
         this._camera.position.z += 4;
+
+        //    this._camera.rotation.x = Math.PI / 7;
         this.pointLight.position.copy(player.body.position);
         this.pointLight.position.z += 3;
     }

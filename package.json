@@ -10,8 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cannon": "0.6.2",
+    "cannon": "github:schteppe/cannon.js",
     "express": "4.16.4",
+    "stats.js": "^0.17.0",
     "three": "0.99.0"
   },
   "devDependencies": {

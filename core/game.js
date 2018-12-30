@@ -3,6 +3,9 @@ const THREE = require('three');
 const OFFSET = 0;
 
 const InputManager = require('./util/inputmanager');
+
+const Stats = require('stats.js');
+
 class Game {
 
     constructor() {
@@ -66,6 +69,11 @@ class Game {
         this.resize();
         window.addEventListener('resize', this.resize.bind(this), false);
 
+        // add debug stats
+        const stats = new Stats(); // <-- remove me
+        document.body.appendChild(stats.dom); // <-- remove me
+
+
         /*
          * the main application cycle
          */
@@ -88,6 +96,7 @@ class Game {
                 this.then = now - (delta % interval);
                 this.render(this.context);
             }
+            stats.update();
         };
         // start the update cycle
         run();
