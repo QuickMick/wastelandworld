@@ -84,7 +84,11 @@ class GameplayScene extends BaseScene {
         this.entityManager.addEntity(context, new Player());
 
 
-
+        this.entityManager.world.addEventListener("postStep", (evt) => {
+            const player = this.entityManager.get("PLAYER");
+            player.body.velocity.x *= 0.99;
+            player.body.velocity.y *= 0.99;
+        });
 
     }
 

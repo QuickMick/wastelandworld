@@ -1,17 +1,22 @@
 {
-  "name": "Wasteland Worlds",
+  "name": "wastelandworlds",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "watch-js": "cmd /k watchify startup.js -o public/bundle.js -v -d"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "cannon": "0.6.2",
-    "electron": "4.0.0",
+    "express": "4.16.4",
     "planck-js": "0.3.0-rc.2",
     "three": "0.99.0"
+  },
+  "devDependencies": {
+    "electron": "4.0.0",
+    "watchify": "3.11.0"
   }
 }

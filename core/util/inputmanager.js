@@ -166,6 +166,14 @@ class InputManager extends Events {
     }
   }
 
+
+  endCycle() {
+    for (let key in this.mapping) {
+      if (!this.mapping.hasOwnProperty(key)) continue;
+      this.mapping[key].endCycle();
+    }
+  }
+
   _onMouseMove(event) {
     this.mouse.lastX = this.mouse.x;
     this.mouse.lastY = this.mouse.y;

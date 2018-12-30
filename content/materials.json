@@ -7,8 +7,8 @@
     },
     {
       "name": "player",
-      "friction": 10,
-      "restitution": 10
+      "friction": 0.000,
+      "restitution": 0.3
     }
   ],
   "contacts": [{

@@ -55,6 +55,9 @@ class InputAction extends Events {
     this.previousState = false;
   }
 
+  endCycle() {
+    this.previousState = this.currentState;
+  }
 
   /**
    * adds a keyboard key to the action list.

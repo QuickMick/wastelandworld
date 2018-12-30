@@ -102,6 +102,7 @@ class Game {
     update(context) {
         //if (!this.currentScene.initialized) return;
         this.currentScene.update(context);
+        this.context.inputManager.endCycle();
     }
 
     /**
