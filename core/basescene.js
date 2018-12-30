@@ -4,7 +4,7 @@ const THREE = require('three');
 class BaseScene extends THREE.Scene {
     constructor() {
         super(...arguments);
-
+        this.initialized = false;
         this._camera = null;
     }
 
@@ -12,7 +12,9 @@ class BaseScene extends THREE.Scene {
         return this._camera;
     }
 
-    init(context) {}
+    init(context) {
+        this.initialized = true;
+    }
 
     resume(context) {
 

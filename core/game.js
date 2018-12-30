@@ -24,6 +24,9 @@ class Game {
             get camera() {
                 if (!self.currentScene) return null;
                 return self.currentScene.camera;
+            },
+            get fixedFrameTime() {
+                return 1000 / self.fps
             }
         };
 
@@ -71,7 +74,7 @@ class Game {
             // calculate the delta time
             const now = Date.now();
             const delta = now - this.then;
-            const interval = 1000 / this.fps;
+            const interval = this.context.fixedFrameTime;
             // update the scene and redner if possible
             if (delta > interval) {
                 this.context.delta = delta; // update the delta in the context 
@@ -91,6 +94,7 @@ class Game {
      * @memberof Game
      */
     update(context) {
+        //if (!this.currentScene.initialized) return;
         this.currentScene.update(context);
     }
 
@@ -101,6 +105,7 @@ class Game {
      * @memberof Game
      */
     render(context) {
+        // if (!this.currentScene.initialized) return;
         this.currentScene.render(context);
         const camera = this.context.camera;
         if (!camera) return console.error("no cam");
