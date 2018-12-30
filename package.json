@@ -12,7 +12,6 @@
   "dependencies": {
     "cannon": "0.6.2",
     "express": "4.16.4",
-    "planck-js": "0.3.0-rc.2",
     "three": "0.99.0"
   },
   "devDependencies": {

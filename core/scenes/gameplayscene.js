@@ -7,7 +7,7 @@ const SimpleGround = require('./../entities/simpleground');
 const KEY_MAPPING = require('./../config/keymapping.json');
 
 const Player = require('./../entities/player');
-
+const Obstacle = require('./../entities/obstacle');
 const EntityManager = require('./../entities/entitymanager');
 
 
@@ -17,7 +17,6 @@ class GameplayScene extends BaseScene {
     constructor() {
         super();
         this._camera = null;
-
 
         this.entityManager = new EntityManager(this.stage, {
             material: MATERIAL
@@ -56,47 +55,46 @@ class GameplayScene extends BaseScene {
         //  this.add(mesh);
 
 
-        const pointLight = new THREE.PointLight(0xFFFFFF);
+        const pointLight = new THREE.PointLight(0xFFFFFF, 1, 25);
 
         // set its position
         pointLight.position.x = 0;
         pointLight.position.y = 1;
         pointLight.position.z = 0;
 
+        this.stage.add(pointLight);
 
-        this.stage.fog = new THREE.Fog(0x000000, 0, 500);
+        this.pointLight = pointLight;
 
-        var ambient = new THREE.AmbientLight(0x111111);
+
+        this.stage.fog = new THREE.Fog(0x000000, 0, 25);
+
+        const ambient = new THREE.AmbientLight(0x111111);
         this.stage.add(ambient);
 
-        const light = new THREE.SpotLight(0xffffff);
-        light.position.set(10, 30, 20);
-        light.target.position.set(0, 0, 0);
-        this.stage.add(light);
+        // const light = new THREE.SpotLight(0xffffff);
+        // light.position.set(10, 30, 20);
+        // light.target.position.set(0, 0, 0);
+        // this.stage.add(light);
 
-        // add to the scene
-        this.stage.add(pointLight);
-        const hm = new HeightMap();
-
-        this.entityManager.addEntity(context, hm);
-
+        this.entityManager.addEntity(context, new HeightMap());
         this.entityManager.addEntity(context, new SimpleGround());
         this.entityManager.addEntity(context, new Player());
-
+        this.entityManager.addEntity(context, new Obstacle({
+            type: "box",
+            mass: 3,
+            size: 0.5
+        }));
     }
 
     update(context) {
         this.entityManager.update(context);
-        // mesh.rotation.x += 0.01;
-        // mesh.rotation.y += 0.02;
-        //   this._camera.rotation.x = -Math.PI / 8;
-
 
         const player = this.entityManager.get("PLAYER");
-        this._camera.position.x = player.body.position.x;
-        this._camera.position.y = player.body.position.y;
-        this._camera.position.z = player.body.position.z + 4;
-
+        this._camera.position.copy(player.body.position);
+        this._camera.position.z += 4;
+        this.pointLight.position.copy(player.body.position);
+        this.pointLight.position.z += 3;
     }
 
     render(context) {

@@ -29,6 +29,10 @@ class Player extends Entity {
       shape: new CANNON.Sphere(size / 2) //new CANNON.Box(new CANNON.Vec3(size, size, size)) //
     });
 
+    this._body.addEventListener('beginContact', (evt) => {
+      console.log("evt", evt);
+    });
+
     // var geometry = new THREE.SphereGeometry(0.5, 32, 32);
     // var material = new THREE.MeshBasicMaterial({
     //   color: 0x00ff00
@@ -61,7 +65,8 @@ class Player extends Entity {
     dirTemp.normalize();
     dirTemp.scale(acceleration, dirTemp);
 
-
+    // apply the speed,
+    // or if nothing is pressed, damp the speed fast
     if (dirTemp.length() === 0) {
       this.body.velocity.x *= 0.8;
       this.body.velocity.y *= 0.8;
@@ -75,7 +80,6 @@ class Player extends Entity {
 
     // if the player is to fast,
     // clamp the speed
-    console.log(curSpeed);
     if (curSpeed > this.attributes.maxSpeed) {
       const onePercent = curSpeed / 100; // one percent of current speed
       let percent = this.attributes.maxSpeed / onePercent; // percent of target speed

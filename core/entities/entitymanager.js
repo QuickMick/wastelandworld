@@ -47,12 +47,28 @@ class EntityManager {
     this.world = new CANNON.World();
     this.world.broadphase = new CANNON.NaiveBroadphase();
     this.world.gravity.set(0, 0, -9.82);
-
-
     this.material = applyMaterials(this.world, this.options.material);
     // add the loaded materials to the context
     context.assets.material = this.material;
 
+
+    this.world.addEventListener("beginContact", (evt) => {
+      console.log(evt);
+    });
+
+    this.world.addEventListener("endContact", (evt) => {
+      console.log(evt);
+    });
+
+    this.world.addEventListener("postStep", (evt) => {
+      /* for (var i = 0; i < world.contacts.length; i++) {
+         var c = world.contacts[i];
+         if ((c.bi === bodyA && c.bj === bodyB) || (c.bi === bodyB && c.bj === bodyA)) {
+           return true;
+         }
+       }
+       return false;*/
+    });
   }
 
   update(context) {

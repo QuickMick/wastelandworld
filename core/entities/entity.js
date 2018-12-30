@@ -1,6 +1,6 @@
 const uuidv1 = require('uuid/v1');
 class Entity {
-  constructor(id, classes) {
+  constructor(classes, id) {
     /*
      * the id of the entity,
      * it can be named or generated (timebased)

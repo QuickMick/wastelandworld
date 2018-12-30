@@ -8,7 +8,7 @@ const data = require('./../../content/chunk.json');
 
 class HeightMap extends Entity {
     constructor(chunk) {
-        super(null, "terrain");
+        super("terrain");
         chunk = chunk || data;
         this.data = chunk.data;
 
