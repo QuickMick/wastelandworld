@@ -7,8 +7,15 @@ class Entity {
      */
     this.id = id || uuidv1();
 
+    this.initialized = false;
+
     this.classes = classes ? new Set([].concat(classes)) : new Set();
   }
+
+  init(context) {
+    this.initialized = true;
+  }
+
 
   get body() {
     throw new Error("abstract");

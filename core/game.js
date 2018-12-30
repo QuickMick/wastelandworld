@@ -31,7 +31,8 @@ class Game {
             get fixedTimeStep() {
                 return 1 / self.fps
             },
-            inputManager: null
+            inputManager: null,
+            assets: {}
         };
 
         /**

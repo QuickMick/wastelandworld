@@ -10,13 +10,18 @@ const Player = require('./../entities/player');
 
 const EntityManager = require('./../entities/entitymanager');
 
+
+const MATERIAL = require('./../../content/materials.json');
+
 class GameplayScene extends BaseScene {
     constructor() {
         super();
         this._camera = null;
 
 
-        this.entityManager = new EntityManager(this.stage);
+        this.entityManager = new EntityManager(this.stage, {
+            material: MATERIAL
+        });
 
         this.player = null;
     }
@@ -73,10 +78,10 @@ class GameplayScene extends BaseScene {
         this.stage.add(pointLight);
         const hm = new HeightMap();
 
-        this.entityManager.addEntity(hm);
+        this.entityManager.addEntity(context, hm);
 
-        this.entityManager.addEntity(new SimpleGround());
-        this.entityManager.addEntity(new Player());
+        this.entityManager.addEntity(context, new SimpleGround());
+        this.entityManager.addEntity(context, new Player());
 
 
 
