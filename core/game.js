@@ -82,7 +82,7 @@ class Game {
             const interval = this.context.fixedFrameTime;
             // update the scene and redner if possible
             if (delta > interval) {
-                this.context.delta = delta; // update the delta in the context 
+                this.context.delta = delta / 1000; // update the delta in the context 
                 this.update(this.context);
                 this.then = now - (delta % interval);
                 this.render(this.context);

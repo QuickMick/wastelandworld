@@ -1,7 +1,7 @@
 const THREE = require('three');
 const CANNON = require('cannon');
 const BaseScene = require('./../basescene');
-const HeightMap = require('./../map/heightmap');
+const HeightMap = require('../entities/heightmap');
 const SimpleGround = require('./../entities/simpleground');
 
 const KEY_MAPPING = require('./../config/keymapping.json');
@@ -71,7 +71,9 @@ class GameplayScene extends BaseScene {
 
         // add to the scene
         this.stage.add(pointLight);
-        this.stage.add(new HeightMap());
+        const hm = new HeightMap();
+
+        this.entityManager.addEntity(hm);
 
         this.entityManager.addEntity(new SimpleGround());
         this.entityManager.addEntity(new Player());
@@ -91,7 +93,7 @@ class GameplayScene extends BaseScene {
         const player = this.entityManager.get("PLAYER");
         this._camera.position.x = player.body.position.x;
         this._camera.position.y = player.body.position.y;
-        this._camera.position.z = player.body.position.z + 30;
+        this._camera.position.z = player.body.position.z + 7;
 
     }
 

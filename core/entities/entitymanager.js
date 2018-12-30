@@ -12,6 +12,7 @@ class EntityManager {
   init(context) {
     this.world = new CANNON.World();
     this.world.gravity.set(0, 0, -9.82);
+    this.world.broadphase = new CANNON.NaiveBroadphase();
 
     var groundBody = new CANNON.Body({
       mass: 0 // mass == 0 makes the body static
@@ -25,9 +26,8 @@ class EntityManager {
     for (let [k, v] of this.entities) {
       v.update(context);
     }
-
-    console.log(context.fixedTimeStep, context.delta);
-    this.world.step(context.fixedTimeStep, context.delta / 100, 3);
+    // update the physics
+    this.world.step(context.fixedTimeStep, context.delta, 3);
   }
 
   render(context) {
@@ -42,6 +42,13 @@ class EntityManager {
     this.stage.add(entity.mesh);
   }
 
+  /**
+   * get an entity by id
+   *
+   * @param {String} id
+   * @returns {Entity} the searched entity
+   * @memberof EntityManager
+   */
   get(id) {
     return this.entities.get(id);
   }

@@ -149,9 +149,14 @@
       const GamePlay = require('./core/scenes/gameplayscene');
       const main = new MainRenderer();
       main.setScene(new GamePlay());
+      setTimeout(() => {
 
-      main.start();
-
+        try {
+          main.start();
+        } catch (e) {
+          console.error(e);
+        }
+      }, 1000);
     };
   </script>
 </body>

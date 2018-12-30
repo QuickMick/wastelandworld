@@ -11,9 +11,7 @@ class SimpleGround extends Entity {
       mass: 0
     });
     this._body.addShape(groundShape);
-    this._body.quaternion.setFromAxisAngle(new CANNON.Vec3(1, 0, 0), -Math.PI / 2);
-
-
+    this._body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), -Math.PI / 2);
 
 
     // floor
