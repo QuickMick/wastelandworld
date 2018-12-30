@@ -68,6 +68,8 @@ class GameplayScene extends BaseScene {
         this.world.addBody(this.player.body);
 
         this.add(this.player.mesh);
+
+
         var groundBody = new CANNON.Body({
             mass: 0 // mass == 0 makes the body static
         });
@@ -81,15 +83,15 @@ class GameplayScene extends BaseScene {
 
         // mesh.rotation.x += 0.01;
         // mesh.rotation.y += 0.02;
-        this._camera.rotation.x = -Math.PI / 8;
+        this._camera.rotation.x = -Math.PI / 4;
 
-
+        this.world.step(context.fixedFrameTime, context.delta, 3);
         this.player.update(context);
-        // this.world.step(context.fixedTimeStep, context.delta, 3);
+
 
         console.log(this._camera.position);
         this._camera.position.x = this.player.body.position.x;
-        this._camera.position.y = this.player.body.position.y;
+        this._camera.position.y = this.player.body.position.y + 5;
         this._camera.position.z = this.player.body.position.z;
 
     }

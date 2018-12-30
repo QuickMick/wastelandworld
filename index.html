@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Hello World!</title>
+  <title>Wasteland Worlds</title>
 
   <style>
     body,
@@ -141,7 +141,6 @@
   <script>
     require('./core/util/polyfill.js');
     window.onload = () => {
-      console.log("start");
       //window.showLoadingDialog();
       window.hideLoadingDialog();
 
@@ -150,7 +149,9 @@
       const GamePlay = require('./core/scenes/gameplayscene');
       const main = new MainRenderer();
       main.setScene(new GamePlay());
+
       main.start();
+
     };
   </script>
 </body>

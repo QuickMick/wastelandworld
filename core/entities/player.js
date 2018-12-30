@@ -12,9 +12,9 @@ class Player extends Entity {
       shape: new CANNON.Sphere(radius)
     });
 
-    const geometry = new THREE.SphereGeometry(0, 0, 0);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xffff00
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({
+      color: 0x00ff00
     });
     this._mesh = new THREE.Mesh(geometry, material);
   }
@@ -29,7 +29,7 @@ class Player extends Entity {
 
   update(context) {
 
-    const speed = 1 * context.delta;
+    const speed = 0.001 * context.delta;
     const m = context.inputManager.mapping;
     if (m.UP.isDown) this.body.velocity.z += speed;
     if (m.DOWN.isDown) this.body.velocity.z -= speed;
