@@ -2,20 +2,21 @@ const THREE = require('three');
 const CANNON = require('cannon');
 const BaseScene = require('./../basescene');
 const HeightMap = require('./../map/heightmap');
-const InputManager = require('./../util/inputmanager');
+const SimpleGround = require('./../entities/simpleground');
+
 const KEY_MAPPING = require('./../config/keymapping.json');
 
 const Player = require('./../entities/player');
 
+const EntityManager = require('./../entities/entitymanager');
 
 class GameplayScene extends BaseScene {
     constructor() {
         super();
         this._camera = null;
 
-        this.inputHandler = null;
 
-        this.world = null;
+        this.entityManager = new EntityManager(this.stage);
 
         this.player = null;
     }
@@ -35,20 +36,20 @@ class GameplayScene extends BaseScene {
         // material = new THREE.MeshNormalMaterial();
         // mesh = new THREE.Mesh(geometry, material);
 
-        this.inputManager = new InputManager();
-        context.inputManager = this.inputManager;
-        this.inputManager.loadMapping(KEY_MAPPING);
-        this._camera = new THREE.PerspectiveCamera(500, context.width / context.height, 0.01, 10);
+
+        context.inputManager.loadMapping(KEY_MAPPING);
+        this._camera = new THREE.PerspectiveCamera(75, context.width / context.height, 0.1, 1000);
         this._camera.position.z = 1;
 
-        this.loadMap();
+        this.loadMap(context);
 
 
     }
 
-    loadMap() {
+    loadMap(context) {
+        this.entityManager.init(context);
         //  this.add(mesh);
-        this.add(new HeightMap());
+
 
         const pointLight = new THREE.PointLight(0xFFFFFF);
 
@@ -57,47 +58,45 @@ class GameplayScene extends BaseScene {
         pointLight.position.y = 1;
         pointLight.position.z = 0;
 
+
+        this.stage.fog = new THREE.Fog(0x000000, 0, 500);
+
+        var ambient = new THREE.AmbientLight(0x111111);
+        this.stage.add(ambient);
+
+        const light = new THREE.SpotLight(0xffffff);
+        light.position.set(10, 30, 20);
+        light.target.position.set(0, 0, 0);
+        this.stage.add(light);
+
         // add to the scene
-        this.add(pointLight);
+        this.stage.add(pointLight);
+        this.stage.add(new HeightMap());
+
+        this.entityManager.addEntity(new SimpleGround());
+        this.entityManager.addEntity(new Player());
 
 
-        this.world = new CANNON.World({
-            gravity: new CANNON.Vec3(0, 0, -9.82) // m/s²
-        });
-        this.player = new Player();
-        this.world.addBody(this.player.body);
 
-        this.add(this.player.mesh);
-
-
-        var groundBody = new CANNON.Body({
-            mass: 0 // mass == 0 makes the body static
-        });
-        var groundShape = new CANNON.Plane();
-        groundBody.addShape(groundShape);
-        this.world.addBody(groundBody);
 
     }
 
     update(context) {
-
+        this.entityManager.update(context);
         // mesh.rotation.x += 0.01;
         // mesh.rotation.y += 0.02;
-        this._camera.rotation.x = -Math.PI / 4;
-
-        this.world.step(context.fixedFrameTime, context.delta, 3);
-        this.player.update(context);
+        //   this._camera.rotation.x = -Math.PI / 8;
 
 
-        console.log(this._camera.position);
-        this._camera.position.x = this.player.body.position.x;
-        this._camera.position.y = this.player.body.position.y + 5;
-        this._camera.position.z = this.player.body.position.z;
+        const player = this.entityManager.get("PLAYER");
+        this._camera.position.x = player.body.position.x;
+        this._camera.position.y = player.body.position.y;
+        this._camera.position.z = player.body.position.z + 30;
 
     }
 
     render(context) {
-        this.player.render(context);
+        this.entityManager.render(context);
     }
 
     cleanUp(context) {

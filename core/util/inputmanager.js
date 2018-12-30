@@ -13,7 +13,7 @@ const RAW_MOUSEMOVE = "rawmousemove";
 const MOUSEWHEEL = "mousewheel";
 
 class InputManager extends Events {
-  constructor() {
+  constructor(targetCanvas) {
     super();
 
     // contains every keys, which are pressed since the last update cycle
@@ -34,11 +34,11 @@ class InputManager extends Events {
 
     this.mapping = null;
 
-    this._init();
+    this._init(targetCanvas);
   }
 
 
-  _init() {
+  _init(targetCanvas) {
     //add key listeners
     // TODO: nichtmehr auf window lassen
     document.addEventListener("keydown", this._keyDown.bind(this), false);
@@ -51,8 +51,8 @@ class InputManager extends Events {
     document.addEventListener("touchend", this._mouseUp.bind(this), false);
 
     // mouse move
-    document.addEventListener('mousemove', this._onMouseMove.bind(this), false);
-    document.addEventListener('touchmove', this._onMouseMove.bind(this), false);
+    targetCanvas.addEventListener('mousemove', this._onMouseMove.bind(this), false);
+    targetCanvas.addEventListener('touchmove', this._onMouseMove.bind(this), false);
   }
 
   /**
@@ -65,7 +65,7 @@ class InputManager extends Events {
    */
   loadMapping(KEY_MAPPING) {
     // clean the old mapping, if existing
-    this.resetKeys();
+    this.resetMapping();
     // load all keys located in config.json
     const keyMapping = {};
     for (let key in KEY_MAPPING) {
@@ -81,7 +81,7 @@ class InputManager extends Events {
     });
   }
 
-  resetKeys() {
+  resetMapping() {
     this.keyState = {
       keyboard_keys: {},
       mouse_buttons: {}

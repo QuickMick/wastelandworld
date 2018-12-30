@@ -2,7 +2,7 @@ const THREE = require('three');
 
 const OFFSET = 0;
 
-
+const InputManager = require('./util/inputmanager');
 class Game {
 
     constructor() {
@@ -27,7 +27,11 @@ class Game {
             },
             get fixedFrameTime() {
                 return 1000 / self.fps
-            }
+            },
+            get fixedTimeStep() {
+                return 1 / self.fps
+            },
+            inputManager: null
         };
 
         /**
@@ -48,6 +52,7 @@ class Game {
         });
         this.renderer.setClearColor(0x000000, 0);
         this.renderer.domElement.classList = "scene";
+        this.context.inputManager = new InputManager(this.renderer.domElement);
         // prevent the context menu
         this.renderer.domElement.oncontextmenu = function (e) {
             e.preventDefault();
@@ -109,7 +114,7 @@ class Game {
         this.currentScene.render(context);
         const camera = this.context.camera;
         if (!camera) return console.error("no cam");
-        this.renderer.render(this.currentScene, camera);
+        this.renderer.render(this.currentScene.stage, camera);
     }
 
     /**

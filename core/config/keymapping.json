@@ -15,6 +15,10 @@
     "keyboard": [68],
     "mouse": []
   },
+  "JUMP": {
+    "keyboard": [32],
+    "mouse": []
+  },
   "USE": {
     "keyboard": [],
     "mouse": [0]

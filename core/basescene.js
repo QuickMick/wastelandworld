@@ -1,11 +1,17 @@
 const THREE = require('three');
 
 
-class BaseScene extends THREE.Scene {
+class BaseScene {
     constructor() {
-        super(...arguments);
         this.initialized = false;
         this._camera = null;
+
+        this.stage = new THREE.Scene();
+
+
+        //The X axis is red. The Y axis is green. The Z axis is blue.
+        var axesHelper = new THREE.AxesHelper(5);
+        this.stage.add(axesHelper);
     }
 
     get camera() {
