@@ -9,7 +9,7 @@ class SimpleGround extends Entity {
   }
 
   init(context) {
-    super.init(context);
+
     // Create a plane
     var groundShape = new CANNON.Plane();
     this._body = new CANNON.Body({
@@ -35,6 +35,8 @@ class SimpleGround extends Entity {
     }));
     this._mesh.castShadow = true;
     this._mesh.receiveShadow = true;
+
+    super.init(context);
   }
 
   get body() {

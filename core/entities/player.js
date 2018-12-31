@@ -38,7 +38,6 @@ class Player extends Entity {
 
   //https://github.com/schteppe/cannon.js/issues/297
   init(context) {
-    super.init(context);
     var size = 1; // m
     this._body = new CANNON.Body({
       mass: 5, // kg
@@ -62,6 +61,8 @@ class Player extends Entity {
     this._mesh = s2m(this._body, new THREE.MeshLambertMaterial({
       color: 0x00ff00
     }));
+
+    super.init(context);
   }
 
   /**

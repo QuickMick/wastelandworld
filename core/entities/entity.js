@@ -12,8 +12,19 @@ class Entity {
     this.classes = classes ? new Set([].concat(classes)) : new Set();
   }
 
+  /**
+   * override this to initialize the element.
+   * the supermethod must be called AT THE END of the inherited init-metehod
+   *
+   * @param {Context} context
+   * @memberof Entity
+   */
   init(context) {
     this.initialized = true;
+    this.mesh.name = this.id;
+
+    this.body.entity = this;
+    this.mesh.entity = this;
   }
 
 

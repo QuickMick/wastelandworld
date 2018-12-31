@@ -96,11 +96,14 @@ class EntityManager {
     entity.init(context);
     this.entities.set(entity.id, entity);
 
-    entity.body.entity = entity;
-    entity.mesh.entity = entity;
-
     this.world.addBody(entity.body);
     this.stage.add(entity.mesh);
+  }
+
+  removeEntity(context, entity) {
+    this.stage.remove(entity.mesh);
+    this.world.remove(entity.body);
+    this.entities.delete(entity.id);
   }
 
   /**

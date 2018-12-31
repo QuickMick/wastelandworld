@@ -22,7 +22,7 @@ class HeightMap extends Entity {
     }
 
     init(context) {
-        super.init(context);
+
         const geometry = new THREE.PlaneGeometry(this.width, this.height, this.width - 1, this.height - 1);
         const texture = THREE.ImageUtils.loadTexture('content/hightmap2.png');
 
@@ -65,7 +65,7 @@ class HeightMap extends Entity {
             color: 0x4286f4
         }));
         // this.body.position.set(-chunk.width * this.body.elementSize, -chunk.width * this.body.elementSize, 0);
-
+        super.init(context);
     }
 
     get body() {

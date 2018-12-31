@@ -97,7 +97,6 @@ class GameplayScene extends BaseScene {
         //    this._camera.rotation.x = Math.PI / 7;
         this.pointLight.position.copy(player.body.position);
         this.pointLight.position.z += 3;
-
     }
 
     render(context) {

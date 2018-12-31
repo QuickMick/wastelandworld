@@ -23,9 +23,6 @@ class Obstacle extends Entity {
   }
   //https://github.com/schteppe/cannon.js/issues/297
   init(context) {
-    super.init(context);
-
-    const size = 1; // m
     this._body = new CANNON.Body({
       mass: this.options.mass || 2, // kg
       material: context.assets.material.rough,
@@ -36,6 +33,8 @@ class Obstacle extends Entity {
     this._mesh = s2m(this._body, new THREE.MeshLambertMaterial({
       color: 0x00ff00
     }));
+
+    super.init(context);
   }
 
   get body() {
