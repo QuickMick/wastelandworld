@@ -85,6 +85,12 @@ class GameplayScene extends BaseScene {
             mass: 3,
             size: 0.5
         }));
+
+        this.entityManager.addEntity(context, new Obstacle({
+            type: "box",
+            mass: 7,
+            size: 0.8
+        }));
     }
 
     update(context) {
