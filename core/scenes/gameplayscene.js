@@ -10,6 +10,7 @@ const Player = require('./../entities/player');
 const Obstacle = require('./../entities/obstacle');
 const EntityManager = require('./../entities/entitymanager');
 
+var ColladaLoader = require('three-collada-loader-2');
 
 const MATERIAL = require('./../../content/materials.json');
 
@@ -91,6 +92,15 @@ class GameplayScene extends BaseScene {
             mass: 7,
             size: 0.8
         }));
+
+
+        //https://threejs.org/docs/#api/en/loaders/managers/LoadingManager
+
+        var loader = new ColladaLoader();
+        loader.load('./content/stormtrooper.dae', (collada) => {
+            this.stage.add(collada.scene);
+        });
+
     }
 
     update(context) {

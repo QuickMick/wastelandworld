@@ -73,6 +73,8 @@ class Game {
         const stats = new Stats(); // <-- remove me
         document.body.appendChild(stats.dom); // <-- remove me
 
+        // const clock = new THREE.Clock();
+        // this.context.delta = clock.getDelta();
 
         /*
          * the main application cycle
