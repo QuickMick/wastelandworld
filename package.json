@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "watch-js": "cmd /k watchify startup.js -o public/bundle.js -v -d"
+    "watch-js": "cmd /k watchify startup.js -o public/bundle.js -v -d",
+    "electron-pack": "electron-packager ./ wastelandworlds --platform=win32 --arch=x64"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "electron": "4.0.0",
+    "electron-packager": "^13.0.1",
     "watchify": "3.11.0"
   }
 }
