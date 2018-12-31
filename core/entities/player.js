@@ -11,11 +11,31 @@ class Player extends Entity {
   constructor() {
     super("PLAYER", "PLAYER");
 
+    /*
+     * the contacts are counted,
+     * if the count is greater than zero, the entity is on ground
+     */
+    this._isOnGround = 0;
+
     this.attributes = {
       acceleration: 25,
       maxSpeed: 3
     };
   }
+
+  /** ################ LISTENERS ############### */
+
+  onBeginContact(context, other) {
+    this._isOnGround++;
+  }
+
+  onEndContact(context, other) {
+    this._isOnGround--;
+  }
+
+  /** ############### END LISTENERS ############ */
+
+
   //https://github.com/schteppe/cannon.js/issues/297
   init(context) {
     super.init(context);
@@ -44,6 +64,16 @@ class Player extends Entity {
     }));
   }
 
+  /**
+   * true, if the entity has contact to the ground
+   *
+   * @readonly
+   * @memberof Player
+   */
+  get isOnGround() {
+    return this._isOnGround > 0;
+  }
+
   get body() {
     return this._body;
   }
@@ -52,8 +82,8 @@ class Player extends Entity {
     return this._mesh;
   }
 
-  update(context) {
 
+  update(context) {
     const acceleration = this.attributes.acceleration * context.delta;
     dirTemp.set(0, 0, 0);
     const m = context.inputManager.mapping;
@@ -89,7 +119,7 @@ class Player extends Entity {
       this.body.velocity.y *= percent;
     }
 
-    if (m.JUMP.wasPressed) this.body.velocity.z += 5;
+    if (m.JUMP.wasPressed && this.isOnGround) this.body.velocity.z += 5;
 
   }
 

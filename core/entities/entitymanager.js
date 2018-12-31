@@ -53,11 +53,18 @@ class EntityManager {
 
 
     this.world.addEventListener("beginContact", (evt) => {
-      console.log(evt);
+      const a = evt.bodyA.entity.onBeginContact;
+      const b = evt.bodyB.entity.onBeginContact;
+      if (a) a.call(evt.bodyA.entity, context, evt.bodyB);
+      if (b) b.call(evt.bodyB.entity, context, evt.bodyA);
     });
 
     this.world.addEventListener("endContact", (evt) => {
-      console.log(evt);
+      const a = evt.bodyA.entity.onEndContact;
+      const b = evt.bodyB.entity.onEndContact;
+      if (a) a.call(evt.bodyA.entity, context, evt.bodyB);
+      if (b) b.call(evt.bodyB.entity, context, evt.bodyA);
+
     });
 
     this.world.addEventListener("postStep", (evt) => {
@@ -88,6 +95,10 @@ class EntityManager {
   addEntity(context, entity) {
     entity.init(context);
     this.entities.set(entity.id, entity);
+
+    entity.body.entity = entity;
+    entity.mesh.entity = entity;
+
     this.world.addBody(entity.body);
     this.stage.add(entity.mesh);
   }
