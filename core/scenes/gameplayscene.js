@@ -1,4 +1,6 @@
 const THREE = require('three');
+
+window.THREE = THREE;
 const CANNON = require('cannon');
 const BaseScene = require('./../basescene');
 const HeightMap = require('../entities/heightmap');
@@ -13,6 +15,31 @@ const EntityManager = require('./../entities/entitymanager');
 var ColladaLoader = require('three-collada-loader-2');
 
 const MATERIAL = require('./../../content/materials.json');
+
+const Terrain = require('./../map/terrraingenerator');
+
+const TTerrain = require('three.terrain.js');
+
+
+var xS = 63,
+    yS = 63;
+const terrainScene = THREE.Terrain({
+    easing: THREE.Terrain.Linear,
+    frequency: 2.5,
+    heightmap: THREE.Terrain.DiamondSquare,
+    material: new THREE.MeshBasicMaterial({
+        color: 0x5566aa
+    }),
+    maxHeight: 5,
+    minHeight: 0,
+    steps: 1,
+    useBufferGeometry: false,
+    xSegments: xS,
+    xSize: 128,
+    ySegments: yS,
+    ySize: 128
+});
+
 
 class GameplayScene extends BaseScene {
     constructor() {
@@ -77,9 +104,34 @@ class GameplayScene extends BaseScene {
         // light.position.set(10, 30, 20);
         // light.target.position.set(0, 0, 0);
         // this.stage.add(light);
+        //https://www.npmjs.com/package/terrain-generator
+        const a = new Terrain(32);
+        a.generate(0.5);
+        let b = new Terrain(32);
 
-        this.entityManager.addEntity(context, new HeightMap());
-        this.entityManager.addEntity(context, new SimpleGround());
+
+        b.generate(0.5, true);
+        for (let i = 0; i < a.max; i++) {
+            b.set(i, 0, a.get(i, a.max));
+        }
+        const hm = new HeightMap({
+            width: 33,
+            height: 33,
+            data: b.map
+        });
+
+        this.entityManager.addEntity(context, new HeightMap({
+            width: 33,
+            height: 33,
+            data: a.map
+        }));
+
+        this.entityManager.addEntity(context, hm);
+
+        hm._body.position.x += 32;
+        hm._mesh.position.x += 32;
+
+        //  this.entityManager.addEntity(context, new SimpleGround());
         this.entityManager.addEntity(context, new Player());
         this.entityManager.addEntity(context, new Obstacle({
             type: "box",
@@ -97,10 +149,19 @@ class GameplayScene extends BaseScene {
         //https://threejs.org/docs/#api/en/loaders/managers/LoadingManager
 
         var loader = new ColladaLoader();
-        loader.load('./content/stormtrooper.dae', (collada) => {
+        loader.load('./content/Untitled1.dae', (collada) => {
             this.stage.add(collada.scene);
         });
 
+
+        this.stage.add(terrainScene);
+
+
+        terrainScene.rotation.x += Math.PI / 2;
+
+        terrainScene.position.z -= 10;
+
+        debugger;
     }
 
     update(context) {
@@ -108,11 +169,11 @@ class GameplayScene extends BaseScene {
 
         const player = this.entityManager.get("PLAYER");
         this._camera.position.copy(player.body.position);
-        this._camera.position.z += 4;
+        this._camera.position.z += 6;
 
         //    this._camera.rotation.x = Math.PI / 7;
         this.pointLight.position.copy(player.body.position);
-        this.pointLight.position.z += 3;
+        this.pointLight.position.z += 13;
     }
 
     render(context) {

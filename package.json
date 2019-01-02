@@ -14,6 +14,7 @@
     "cannon": "github:schteppe/cannon.js",
     "express": "4.16.4",
     "stats.js": "^0.17.0",
+    "terrain-generator": "^2.0.0-beta.3.1",
     "three": "0.99.0",
     "three-collada-loader-2": "1.0.1"
   },

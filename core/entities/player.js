@@ -19,7 +19,7 @@ class Player extends Entity {
 
     this.attributes = {
       acceleration: 25,
-      maxSpeed: 3
+      maxSpeed: 13
     };
   }
 
@@ -44,7 +44,7 @@ class Player extends Entity {
       fixedRotation: true,
       //linearDamping: 0.4,
       material: context.assets.material.slippery,
-      position: new CANNON.Vec3(0, 0, 10), // m
+      position: new CANNON.Vec3(10, 10, 10), // m
       shape: new CANNON.Sphere(size / 2) //new CANNON.Box(new CANNON.Vec3(size, size, size)) //
     });
 
